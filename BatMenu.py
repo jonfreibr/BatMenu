@@ -29,7 +29,7 @@ from PySide6.QtCore import (
 
 from PySide6.QtWidgets import (
     QApplication,
-    QHBoxLayout,
+    QGridLayout,
     QMainWindow,
     QPushButton,
     QTextEdit,
@@ -45,6 +45,8 @@ brmc_rust = '#ce7067'
 brmc_warm_grey = '#9a8b7d'
 light_grey = '#d3d3d3'
 flat_white = '#e7e7e7'
+
+num_cols = 5
 
 buttons = []
 
@@ -93,15 +95,22 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle(f"{win_title}, v {progver}")
         container = QWidget()
-        layout = QHBoxLayout()
-        container.setLayout(layout)
-        self.setCentralWidget(container)
+        layout = QGridLayout()
 
         for file in listbats():
             buttons.append(Scripts(file))
         
+        x = 0
+        y = 0
         for b in buttons:
-            layout.addWidget(b.get_button())
+            layout.addWidget(b.get_button(), y, x)
+            x += 1
+            if x >= num_cols:
+                x = 0
+                y += 1
+
+        container.setLayout(layout)
+        self.setCentralWidget(container)
 
     def closeEvent(self, a0):
         self.settings.setValue('MainWindowSize', self.size())
@@ -115,7 +124,7 @@ class DataWindow(QWidget):
         self.file = file
 
         self.settings = QSettings("Blue Ridge MEdical Center", "BatMenu")
-        self.resize(self.settings.value(f'{self.name}WIndowSize', QSize(180, 30)))
+        self.resize(self.settings.value(f'{self.name}WIndowSize', QSize(850, 400)))
         self.move(self.settings.value(f'{self.name}WindowPos', QPoint(50, 50)))
         self.setContentsMargins(10, 10, 10, 10)
         self.setStyleSheet(f'background-color: {brmc_medium_blue}')
