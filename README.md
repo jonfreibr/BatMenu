@@ -8,6 +8,8 @@ BatMenu looks for batch files (*.bat) in the current working directory. It then 
 
 The batch files must be autonomous -- they cannot require any arguments or user interaction. Output from the batch files will be captured in a separate window.
 
+The title of the button window can be controlled by creating the file "batmenu.cfg" containing the title text.
+
 ## Questions, Comments, Bug Reports:
 
 jfreivald@brmedical.com
