@@ -2,9 +2,9 @@
 """
 Program : BatMenu
 Author  : Jon Freivald <jfreivald@brmedical.com>
-        : Copyright © Blue Ridge Medical Center, 2024. All Rights Reserved.
+        : Copyright © Blue Ridge Medical Center, 2025. All Rights Reserved.
         : License: Creative Commons
-Date    : 2024-06-05
+Date    : 2025-09-29
 Purpose : GUI Menu wrapper for batch files
         : Version change log at EoF.
 """
@@ -37,7 +37,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-progver = '2.0'
+progver = '1.0'
 brmc_dark_blue = '#00446a'
 brmc_medium_blue = '#73afb6'
 brmc_gold = '#ffcf01'
@@ -85,7 +85,7 @@ class MainWindow(QMainWindow):
         except:
             win_title = "Batch File Menu System"
 
-        self.settings = QSettings("Blue Ridge MEdical Center", "Jon's Backup System 2.0")
+        self.settings = QSettings("Blue Ridge MEdical Center", "BatMenu")
         self.resize(self.settings.value('MainWIndowSize', QSize(180, 30)))
         self.move(self.settings.value('MainWindowPos', QPoint(50, 50)))
 
@@ -114,7 +114,7 @@ class DataWindow(QWidget):
         self.name = name
         self.file = file
 
-        self.settings = QSettings("Blue Ridge MEdical Center", "Jon's Backup System 2.0")
+        self.settings = QSettings("Blue Ridge MEdical Center", "BatMenu")
         self.resize(self.settings.value(f'{self.name}WIndowSize', QSize(180, 30)))
         self.move(self.settings.value(f'{self.name}WindowPos', QPoint(50, 50)))
         self.setContentsMargins(10, 10, 10, 10)
@@ -165,18 +165,10 @@ class DataWindow(QWidget):
 
     def handle_state(self, state):
         if QProcess.Running:
-            self.setWindowTitle(f"Jon's Backup System, v {progver} ({self.current_process} running)")
-    #     states = {
-    #         QProcess.NotRunning: 'Not running',
-    #         QProcess.Starting: 'Starting',
-    #         QProcess.Running: 'Running',
-    #     }
-    #     state_name = states[state]
-    #     self.message(f"State changed: {state_name}\n")
-
+            self.setWindowTitle(f"{self.current_process} running")
+   
     def process_finished(self):
-        # self.message("Process finished.\n")
-        self.setWindowTitle(f"Jon's Backup System, v {progver} ({self.current_process} finished)")
+        self.setWindowTitle(f"{self.current_process} finished")
         self.p = None
 
     def closeEvent(self, a0):
@@ -194,14 +186,5 @@ if __name__ == '__main__':
 """
 change log:
 
-v 0.1   : 240605    : Blatantly stolen from the Internet and modified to fit my purposes.
-v 0.2   : 240605    : Updated UI to be able to clear output area.
-v 0.3   : 240605    : Added standard header and PySimpleGUI distribution license.
-v 0.4   : 240611    : Added option to backup Renee's ADMIN share
-v 0.5   : 250103    : Expanded window to deal with output from robocopy
-v 0.6   : 250305    : Removed reverse-mirror option -- media needs to be dedicated to the backup scheme
-v 0.7   : 250811    : Re-write migrating from PySimpleGUI to PySide6.
-v 1.0   : 250812    : Encountered issue with pythonw.exe and stdout/stderr. Finished re-write.
-v 1.01  : 250818    : Tweaking the interface.
-v 2.0   : 250923    : Major refactor to dynamically create menu based on .bat files found in CWD.
+v 1.0   : 250929    : Started with MyBack v 2.0 and modified to be a generic batch file menu system.
 """
