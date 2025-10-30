@@ -37,7 +37,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-progver = '1.0'
+progver = '1.01'
 brmc_dark_blue = '#00446a'
 brmc_medium_blue = '#73afb6'
 brmc_gold = '#ffcf01'
@@ -61,6 +61,16 @@ def listbats():
             files.append(f)
     return files
 
+def win_title():
+    try:
+        with open("batmenu.cfg", 'r') as fp:
+            win_title = fp.readline()
+    except:
+        win_title = "Batch File Menu System"
+    return win_title
+
+win_title = win_title()
+
 class Scripts:
     def __init__(self, script):
         self.name = script.strip('.bat')
@@ -81,13 +91,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        try:
-            with open("batmenu.cfg", 'r') as fp:
-                win_title = fp.readline()
-        except:
-            win_title = "Batch File Menu System"
-
-        self.settings = QSettings("Blue Ridge MEdical Center", "BatMenu")
+        self.settings = QSettings("Blue Ridge MEdical Center", win_title)
         self.resize(self.settings.value('MainWIndowSize', QSize(180, 30)))
         self.move(self.settings.value('MainWindowPos', QPoint(50, 50)))
 
@@ -123,7 +127,7 @@ class DataWindow(QWidget):
         self.name = name
         self.file = file
 
-        self.settings = QSettings("Blue Ridge MEdical Center", "BatMenu")
+        self.settings = QSettings("Blue Ridge MEdical Center", win_title)
         self.resize(self.settings.value(f'{self.name}WIndowSize', QSize(850, 400)))
         self.move(self.settings.value(f'{self.name}WindowPos', QPoint(50, 50)))
         self.setContentsMargins(10, 10, 10, 10)
@@ -196,4 +200,5 @@ if __name__ == '__main__':
 change log:
 
 v 1.0   : 250929    : Started with MyBack v 2.0 and modified to be a generic batch file menu system.
+v 1.01  : 251030    : QSettings are now separate for each instance running with a config file
 """
